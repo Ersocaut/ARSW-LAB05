@@ -50,7 +50,7 @@
     ```
 
 
-5. Suba la aplicación (mvn spring-boot:run), y rectifique:
+5. Suba la aplicación (gradlew bootRun), y rectifique:
     1. Que la página sea accesible desde:
     ```
     http://localhost:8080/index.html
