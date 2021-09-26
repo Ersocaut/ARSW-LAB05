@@ -8,16 +8,36 @@ var apimock = (function () {
             name: "house",
             points: [
                 {
-                    x: 10,
-                    y: 20
+                    x: 200,
+                    y: 100
                 },
                 {
-                    x: 15,
-                    y: 25
+                    x: 100,
+                    y: 200
                 },
                 {
-                    x: 45,
-                    y: 25
+                    x: 100,
+                    y: 300
+                },
+                {
+                    x: 300,
+                    y: 300
+                },
+                {
+                    x: 300,
+                    y: 200
+                },
+                {
+                    x: 100,
+                    y: 200
+                },
+                {
+                    x: 300,
+                    y: 200
+                },
+                {
+                    x: 200,
+                    y: 100
                 }
             ]
         },
@@ -37,15 +57,99 @@ var apimock = (function () {
         },
         {
             author: "JhonConnor",
-            name: "T-8000",
+            name: "car",
             points: [
                 {
-                    x: 77,
-                    y: 88
+                    x: 300,
+                    y: 100
                 },
                 {
-                    x: 55,
-                    y: 35
+                    x: 600,
+                    y: 100
+                },
+                {
+                    x: 600,
+                    y: 200
+                },
+                {
+                    x: 500,
+                    y: 200
+                },
+                {
+                    x: 500,
+                    y: 100
+                },
+                {
+                    x: 600,
+                    y: 100
+                },
+                {
+                    x: 600,
+                    y: 200
+                },
+                {
+                    x: 800,
+                    y: 200
+                },
+                {
+                    x: 800,
+                    y: 300
+                },
+                {
+                    x: 700,
+                    y: 300
+                },
+                {
+                    x: 700,
+                    y: 400
+                },
+                {
+                    x: 600,
+                    y: 400
+                },
+                {
+                    x: 600,
+                    y: 300
+                },
+                {
+                    x: 700,
+                    y: 300
+                },
+                {
+                    x: 400,
+                    y: 300
+                },
+                {
+                    x: 400,
+                    y: 400
+                },
+                {
+                    x: 300,
+                    y: 400
+                },
+                {
+                    x: 300,
+                    y: 300
+                },
+                {
+                    x: 400,
+                    y: 300
+                },
+                {
+                    x: 100,
+                    y: 300
+                },
+                {
+                    x: 100,
+                    y: 200
+                },
+                {
+                    x: 300,
+                    y: 200
+                },
+                {
+                    x: 300,
+                    y: 100
                 }
             ]
         }
@@ -65,59 +169,24 @@ var apimock = (function () {
                     y: 75
                 }
             ]
-        },
-        {
-            author: 'LexLuthor',
-            name: 'LuthorCorp',
-            points: [
-                {
-                    x: 10,
-                    y: 60
-                },
-                {
-                    x: 60,
-                    y: 60
-                },
-                {
-                    x: 60,
-                    y: 10
-                },
-                {
-                    x: 10,
-                    y: 10
-                }
-            ]
-        }
-    ]
-
-    mockdata['PeterParker'] = [
-        {
-            author: 'PeterParker',
-            name: 'Spiderman',
-            points: [
-                {
-                    x: 60,
-                    y: 15
-                },
-                {
-                    x: 30,
-                    y:45
-                }
-            ]
         }
     ]
 
     return {
         getBlueprintsByAuthor: function(author, callback) {
-            callback(null, mockdata[author]);
+            callback(null, mockdata[author] || [] );
         },
 
         getBlueprintsByNameAndAuthor: function(name, author, callback) {
+            if( mockdata[author] === null ) return;
             blueprint = mockdata[author].find(function(blueprint) {
                 return blueprint.name == name
             });
-            callback(null, blueprint)
-        }
+            callback(null, [blueprint] || []);
+        },
+        getMockaData: ()=>{
+            return mockdata;
+    }
     }
 
 })();
