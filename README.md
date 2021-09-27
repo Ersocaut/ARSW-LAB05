@@ -1,8 +1,27 @@
 
 ### Escuela Colombiana de Ingeniería
-### Arquiecturas de Software
+### Arquitecturas de Software
 
 ## Construción de un cliente 'grueso' con un API REST, HTML5, Javascript y CSS3. Parte I.
+
+### Integrantes:
+
+- [Camilo Rincón](https://github.com/Rincon10 )
+- [Leonardo Galeano](https://github.com/Ersocaut)
+
+### Ejecutando el proyecto:
+Para hacer uso del proyecto únicamente se debe ejecutar el siguiente comando desde el directorio principal (en donde se encuentre la carpeta gradle), sin embargo, existen dos situaciones que hacen diferir el comando a ejecutar:
+
+- En caso de **NO** tener gradle instalado de manera local:
+```
+gradlew bootRun
+```
+
+- En caso de tener gradle instalado de manera local:
+```
+gradle bootRun
+```
+
 
 ### Trabajo individual o en parejas. A quienes tuvieron malos resultados en el parcial anterior se les recomienda hacerlo individualmente.
 
@@ -17,7 +36,7 @@
 
 1. Incluya dentro de las dependencias de Gradle (build.gradle) los 'webjars' de jQuery y Bootstrap (esto permite tener localmente dichas librerías de JavaScript al momento de construír el proyecto):
 
-    ```
+    ```js
     dependencies { 
 		...
 		compile group: 'org.webjars', name: 'webjars-locator', version: '0.14'
@@ -56,6 +75,7 @@
     http://localhost:8080/index.html
     ```
     2. Al abrir la consola de desarrollador del navegador, NO deben aparecer mensajes de error 404 (es decir, que las librerías de JavaScript se cargaron correctamente).
+    ![](img/Running01.png) 
 
 ## Front-End - Lógica
 
@@ -88,6 +108,8 @@
 
 6. Verifique el funcionamiento de la aplicación. Inicie el servidor, abra la aplicación HTML5/JavaScript, y rectifique que al ingresar un usuario existente, se cargue el listado del mismo.
 
+![](img/Running02-withoutCanvasImpl.png)
+
 ## Para la próxima semana
 
 8. A la página, agregue un [elemento de tipo Canvas](https://www.w3schools.com/html/html5_canvas.asp), con su respectivo identificador. Haga que sus dimensiones no sean demasiado grandes para dejar espacio para los otros componentes, pero lo suficiente para poder 'dibujar' los planos.
@@ -96,11 +118,27 @@
     * Consulte los puntos del plano correspondiente, y con los mismos dibuje consectivamente segmentos de recta, haciendo uso [de los elementos HTML5 (Canvas, 2DContext, etc) disponibles](https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_canvas_tut_path)* Actualice con jQuery el campo <div> donde se muestra el nombre del plano que se está dibujando (si dicho campo no existe, agruéguelo al DOM).
 
 10. Verifique que la aplicación ahora, además de mostrar el listado de los planos de un autor, permita seleccionar uno de éstos y graficarlo. Para esto, haga que en las filas generadas para el punto 5 incluyan en la última columna un botón con su evento de clic asociado a la operación hecha anteriormente (enviándo como parámetro los nombres correspondientes).
+	
+![](img/Running02-withCanvasImpl.png)
 
 11. Verifique que la aplicación ahora permita: consultar los planos de un auto y graficar aquel que se seleccione.
 
+![](img/Running03-car.png)
+	
 12. Una vez funcione la aplicación (sólo front-end), haga un módulo (llámelo 'apiclient') que tenga las mismas operaciones del 'apimock', pero que para las mismas use datos reales consultados del API REST. Para lo anterior revise [cómo hacer peticiones GET con jQuery](https://api.jquery.com/jquery.get/), y cómo se maneja el esquema de _callbacks_ en este contexto.
+
+![](img/Running04-paint.png)
 
 13. Modifique el código de app.js de manera que sea posible cambiar entre el 'apimock' y el 'apiclient' con sólo una línea de código.
 
+```js
+setModule : (module = apimock)=>{
+	_module = module;
+        }
+```
+
+![](img/Running04-set.png)
+	
 14. Revise la [documentación y ejemplos de los estilos de Bootstrap](https://v4-alpha.getbootstrap.com/examples/) (ya incluidos en el ejercicio), agregue los elementos necesarios a la página para que sea más vistosa, y más cercana al mock dado al inicio del enunciado.
+
+![](img/bootstrap.png)
