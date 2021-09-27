@@ -1,28 +1,22 @@
-var apimock = (function () {
+const url = 'http://localhost:8080/blueprints/';
+var apiclient = (function () {
+    // Esto funciona dando dos click, ya que la info se guarda en temp
+    var temp=[]
     return {
-        const blueprints = {
-            url: /blueprints/${author},
-            contentType:application/json
-        },
-        const promise = $.get( blueprints )
-        /*
-        getBlueprintsByAuthor: function(author, callback) {
-            callback(null, mockdata[author] || [] );
-        }*/
-        ,
-
-        getBlueprintsByNameAndAuthor: function(name, author, callback) {
-            if( mockdata[author] === null ) return;
-            blueprint = mockdata[author].find(function(blueprint) {
-                return blueprint.name == name
+        getBlueprintsByAuthor:  (name, callback)=> {
+            $.get(url+name,(data)=>{
+                temp=data;
             });
-            callback(null, [blueprint] || []);
+            return callback(null,temp);
         },
-        getMockaData: ()=>{
-            return mockdata;
+        getBlueprintsByNameAndAuthor: (name, author, callback)=> {
+            jQuery.ajax({
+                url: url+author+"/"+name,
+                success:  (result) =>{
+                    callback(null,[result]);
+                },
+                async: true
+            });
         }
-    }
+    };
 })();
-
-//path ="/{author}"
-//path ="/{author}/{name}"

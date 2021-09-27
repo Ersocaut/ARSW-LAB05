@@ -1,5 +1,6 @@
 var app = ( function(){
 
+    var _module = apimock;
     var _listOfBlueprints;
     var _inputNombre;
     var _table = $('#blueprintsTable tbody');
@@ -9,7 +10,6 @@ var app = ( function(){
     var _currentBlueprint= $('#currentBluePrint');
 
     loadEventListeners();
-
     function loadEventListeners(){
         if( !_buttonBlueprints ){
             console.log('No lo encontre');
@@ -25,16 +25,16 @@ var app = ( function(){
     }
 
     function callB (error , mockDataAuthor) {
-        if( error  ){ return;}
+        if( error !== null  ){ return;}
         _listOfBlueprints = mockDataAuthor.map( blueprint => {
             const data  = {
                 name:blueprint.name,
-                numberOfPoints: blueprint.points.length,
-                points:blueprint.points
+                numberOfPoints: blueprint.points.length
             };
             //_totalOfPoints+=data.numberOfPoints;
             return data;
         });
+        console.log(_listOfBlueprints,'1');
     }
 
     function getBlueprints(event){
@@ -47,37 +47,44 @@ var app = ( function(){
         _listOfBlueprints=[];
         _inputNombre = $('#inputNombre').val();
         //Buscamos los blueprints segun el dato ingresado
-        if (bluePrintName === null) apimock.getBlueprintsByAuthor( _inputNombre, callB);
-        else apimock.getBlueprintsByNameAndAuthor(bluePrintName, _inputNombre, callB);
+        if (bluePrintName === null) _module.getBlueprintsByAuthor( _inputNombre, callB);
+        else _module.getBlueprintsByNameAndAuthor(bluePrintName, _inputNombre, callB);
         _totalOfPoints = _listOfBlueprints.reduce( (total, {numberOfPoints}) => total + numberOfPoints, 0);
+        console.log(_listOfBlueprints,'3');
         //Lo pasamos a html
         bluePrintsHTML(_totalOfPoints);
     }
 
-    function draw(bluePrintName){
+    function draw( bluePrintName){
+        //Actualizamos el blueprint seleccionado
+        _currentBlueprint.text(`Current Blueprint: ${bluePrintName}`);
 
-        readInputData(bluePrintName);
+        _module.getBlueprintsByNameAndAuthor(bluePrintName, _inputNombre, (error , mockDataAuthor)=>{
+            if(error) return;
+            var _canvas = $('#canvas')[0];
+            const { points } = mockDataAuthor[0];
+            if( _canvas.getContext ){
+                const context = _canvas.getContext('2d');
+                //context.clearRect(0, 0, canvas.width, canvas.height);
+                //Limpiando canvas
+                canvas.width=canvas.width;
+                context.moveTo(points[0].x, points[0].y);
+                points.forEach( point=>{
+                    const {x,y} = point;
+                    context.lineTo(x,y);
+                });
+                context.stroke();
+            }
+        });
 
-        var board = document.getElementById('canvas');
-        board.width = board.width;
-        var control = board.getContext("2d");
 
-        _listOfBlueprints.map(bluePrint => {
-            var pointss = bluePrint.points;
-            control.moveTo(pointss[0].x, pointss[0].y);
-            pointss.map(punto => {
-                control.lineTo(punto.x, punto.y);
-            })
-        })
-        control.stroke();
-        _currentBlueprint.text("Current blueprint: " + bluePrintName);
     }
 
     function bluePrintsHTML(totalOfPoints){
         updateData(totalOfPoints);
         // Limpiamos el contenido de la tabla HTML
         _table.empty();
-
+        console.log(_listOfBlueprints,'2');
         _listOfBlueprints.map(bluePrint => {
             const {name, numberOfPoints } = bluePrint;
             const row = document.createElement('tr');
@@ -96,21 +103,22 @@ var app = ( function(){
     }
 
     return {
-            updateAuthorName : newName => {
-                updateName(newName);
-            },
-            setListBlueprintsByAuthor : author => {
-                updateName(author);
-                readInputData(null);
-            },
-            setListBlueprintsByNameAndAuthor : (name,author) => {
-                updateName(author);
-                readInputData(name);
-            },
-            drawBlueprint : (name) =>{
-                draw(name);
-            }
+        updateAuthorName : newName => {
+            updateName(newName);
+        },
+        setListBlueprintsByAuthor : author => {
+            updateName(author);
+            readInputData(null);
+        },
+        setListBlueprintsByNameAndAuthor : (name,author) => {
+            updateName(author);
+            readInputData(name);
+        },
+        drawBlueprint : (name) =>{
+            draw(name);
+        },
+        setModule : (module = apimock)=>{
+            _module = module;
+        }
     }
 })();
-
-
