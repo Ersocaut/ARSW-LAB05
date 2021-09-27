@@ -88,7 +88,7 @@ var app = ( function(){
         _listOfBlueprints.map(bluePrint => {
             const {name, numberOfPoints } = bluePrint;
             const row = document.createElement('tr');
-            const button = `<button onclick="app.drawBlueprint('${name}')"> Open </button>`;
+            const button = `<button class="btn btn-success" onclick="app.drawBlueprint('${name}')"> Open </button>`;
             row.innerHTML=`
                             <td>${name}</td>
                             <td>${numberOfPoints}</td>
