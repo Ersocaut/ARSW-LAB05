@@ -9,6 +9,7 @@ var app = ( function(){
     var _currentBlueprint= $('#currentBluePrint');
 
     loadEventListeners();
+
     function loadEventListeners(){
         if( !_buttonBlueprints ){
             console.log('No lo encontre');
@@ -28,7 +29,8 @@ var app = ( function(){
         _listOfBlueprints = mockDataAuthor.map( blueprint => {
             const data  = {
                 name:blueprint.name,
-                numberOfPoints: blueprint.points.length
+                numberOfPoints: blueprint.points.length,
+                points:blueprint.points
             };
             //_totalOfPoints+=data.numberOfPoints;
             return data;
@@ -52,12 +54,23 @@ var app = ( function(){
         bluePrintsHTML(_totalOfPoints);
     }
 
-    function draw( bluePrintName){
-        //Actualizamos el blueprint seleccionado
-        
-        console.log(`Dibujando ${bluePrintName}`);
+    function draw(bluePrintName){
 
-        
+        readInputData(bluePrintName);
+
+        var board = document.getElementById('canvas');
+        board.width = board.width;
+        var control = board.getContext("2d");
+
+        _listOfBlueprints.map(bluePrint => {
+            var pointss = bluePrint.points;
+            control.moveTo(pointss[0].x, pointss[0].y);
+            pointss.map(punto => {
+                control.lineTo(punto.x, punto.y);
+            })
+        })
+        control.stroke();
+        _currentBlueprint.text("Current blueprint: " + bluePrintName);
     }
 
     function bluePrintsHTML(totalOfPoints){
